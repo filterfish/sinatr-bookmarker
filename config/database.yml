@@ -1,0 +1,5 @@
+development:
+  adapter: postgresql
+  database: bookmarker_development
+  timeout: 5000
+  encoding: utf-8
