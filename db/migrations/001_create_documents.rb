@@ -11,7 +11,6 @@ Sequel.migration do
       primary_key :id
       index :uri, :unique => true
       index :domain, :unique => true
-      index :title, :unique => true
     end
   end
 end
