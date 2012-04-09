@@ -2,6 +2,7 @@
 
 require 'nokogiri'
 require 'amatch'
+require 'iconv'
 
 class HtmlCleanerError < RuntimeError
 end
@@ -118,9 +119,12 @@ class HtmlCleaner
   ELEMENTS_TO_KEEP = ['strong','font','h1','h2','h3','h4','h5','h6','b','i','a','cite','code','em','q','s','span','strike','sub','super','tt']
 
   def initialize(html)
+    # Force encoding.
+    h = Iconv.new('utf-8//ignore//translit', 'utf-8').conv(html)
+
     # Get rid of entity references and a few other characters.
     # WARNING. Be careful of the  when cutting & pasting.
-    @document = Nokogiri(html.gsub(/(&#?[[:alnum:]]+;|[|])/, ''))
+    @document = Nokogiri(h.gsub(/(&#?[[:alnum:]]+;|[|])/, ''))
   end
 
   def title
@@ -128,6 +132,14 @@ class HtmlCleaner
       @title = @document.search('//title').inner_text.split.join(" ").gsub(/\s+/, ' ').strip rescue ''
     end
     @title
+  end
+
+  def html
+    @document.to_s
+  end
+
+  def encoding?
+    @document.encoding
   end
 
   # Entry point for processing a document. It removes any unwanted
