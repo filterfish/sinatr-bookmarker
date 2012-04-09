@@ -3,7 +3,7 @@ require 'thin'
 require 'sequel'
 require 'em-http'
 
-Sequel.connect('postgres:///bookmarker_development')
+Sequel.connect('postgres:///bookmarker_production')
 
 # Make sure this goes after the Sequel.connect line.
 require 'models'
@@ -57,9 +57,13 @@ class BookmarkerPersisterAgent < Smith::Agent
         end
       else
         download_document(details.uri) do |response|
-          document = Document.create(response)
-          user.document_downloads << DocumentDownload.create(:user_id => user.id, :document_id => document.id)
-          user.save
+          begin
+            document = Document.create(response)
+            user.document_downloads << DocumentDownload.create(:user_id => user.id, :document_id => document.id)
+            user.save
+          rescue Sequel::DatabaseError => e
+            logger.error(e)
+          end
         end
       end
     end
