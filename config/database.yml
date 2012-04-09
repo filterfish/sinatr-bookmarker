@@ -3,3 +3,9 @@ development:
   database: bookmarker_development
   timeout: 5000
   encoding: utf-8
+
+production:
+  adapter: postgresql
+  database: bookmarker_production
+  timeout: 5000
+  encoding: utf-8
