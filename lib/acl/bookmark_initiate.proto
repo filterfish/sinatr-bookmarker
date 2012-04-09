@@ -1,0 +1,5 @@
+package Smith.ACL;
+message BookmarkInitiate {
+  required string uri = 1;
+  required string token = 2;
+}
