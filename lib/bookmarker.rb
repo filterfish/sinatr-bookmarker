@@ -21,11 +21,11 @@ class Bookmarker < Sinatra::Base
     logger.debug("In initialize")
   end
 
-  apost '/bookmark', :provides => :json do
+  apost '/add', :provides => :json do
 
     if request.content_type && request.content_type.start_with?('application/json')
       details = MultiJson.decode(env['rack.input'].read, :symbolize_keys => true)
-      if details[:uri] && details[:user]
+      if details[:uri] && details[:token]
         begin
           settings.on_bookmark(details)
           ahalt(201)
