@@ -21,6 +21,6 @@ class BookmarkerAgent < Smith::Agent
       end
     end
 
-    Bookmarker.run!(:port => 4567, :on_bookmark => on_bookmark)
+    Bookmarker.run!(:bind => '127.0.0.1', :port => 4567, :on_bookmark => on_bookmark)
   end
 end
