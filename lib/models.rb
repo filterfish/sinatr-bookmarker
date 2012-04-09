@@ -10,7 +10,9 @@ class Document < Sequel::Model
   def before_create
     if self.html
       cleaner = HtmlCleaner.new(self.html)
+      self.html = cleaner.html
       self.content = cleaner.content
+      self.title = cleaner.title
     end
 
     now = Time.now.utc
