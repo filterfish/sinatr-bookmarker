@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
+
+require 'pp'
+require 'pathname'
+
+$:.unshift(Pathname.new(__FILE__).dirname.parent.join('lib'))
+
+require 'htmlcleaner'
+
+ARGV.empty? && (puts "usage: #{Pathname.new($0).basename} <html files>"; exit 1)
+
+html_files = ARGV.map { |f| Pathname.new(f).read }
+
+html_files.each do |html_file|
+  cleaner = HtmlCleaner.new(html_file)
+  puts "Title: #{cleaner.title}\n\n"
+  puts cleaner.content
+
+  puts "\n\n"
+end
