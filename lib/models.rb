@@ -15,9 +15,6 @@ class Document < Sequel::Model
       self.title = cleaner.title
     end
 
-    now = Time.now.utc
-    self.created_at ||= now
-    self.updated_at = now
     self.domain = Addressable::URI.parse(self.uri).host
     super
   end
@@ -26,10 +23,6 @@ end
 class DocumentDownload < Sequel::Model
   many_to_one :documents
   many_to_one :users
-
-  def before_create
-    self.download_at = Time.now.utc
-  end
 end
 
 class User < Sequel::Model
