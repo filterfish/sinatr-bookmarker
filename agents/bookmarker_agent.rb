@@ -1,12 +1,6 @@
 require 'bookmarker'
 require 'thin'
-require 'sequel'
 require 'em-http'
-
-Sequel.connect('postgres:///bookmarker_development')
-
-# Make sure this goes after the Sequel.connect line.
-require 'models'
 
 class Object
   def maybe
