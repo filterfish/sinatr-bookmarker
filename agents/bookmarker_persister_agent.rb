@@ -27,16 +27,20 @@ class BookmarkerPersisterAgent < Smith::Agent
   private
 
   def download_document(uri, &blk)
-    logger.debug("Downloading: #{uri}")
+    begin
+      logger.debug("Downloading: #{uri}")
 
-    http = EM::HttpRequest.new(uri).get(:connect_timeout => 60, :inactivity_timeout => 240, :redirects => 12, :head => {"accept-encoding" => "gzip, compressed"})
-    http.callback do
-      logger.info("Document downloaded: #{http.response_header.status}  #{http.last_effective_url.to_s}")
-      blk.call(:uri => uri, :redirected_uri => http.last_effective_url, :status => http.response_header.status, :html => http.response)
-    end
+      http = EM::HttpRequest.new(uri).get(:connect_timeout => 60, :inactivity_timeout => 240, :redirects => 12, :head => {"accept-encoding" => "gzip, compressed"})
+      http.callback do
+        logger.info("Document downloaded: #{http.response_header.status}  #{http.last_effective_url.to_s}")
+        blk.call(:uri => uri, :redirected_uri => http.last_effective_url, :status => http.response_header.status, :html => http.response)
+      end
 
-    http.errback do
-      logger.warn("Document could not be downloaded: #{uri}")
+      http.errback do
+        logger.warn("Document could not be downloaded: #{uri}")
+      end
+    rescue Addressable::URI::InvalidURIError => e
+      logger.error("Invalid uri: #{uri.display}")
     end
   end
 
