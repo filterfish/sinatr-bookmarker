@@ -66,7 +66,7 @@ class BookmarkerPersisterAgent < Smith::Agent
             user.document_downloads << DocumentDownload.create(:user_id => user.id, :document_id => document.id)
             user.save
           rescue Sequel::DatabaseError => e
-            logger.error(e)
+            logger.error(e.message)
           end
         end
       end
