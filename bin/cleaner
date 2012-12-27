@@ -6,7 +6,7 @@ require 'pathname'
 
 $:.unshift(Pathname.new(__FILE__).dirname.parent.join('lib'))
 
-require 'htmlcleaner'
+require 'html_cleaner'
 
 ARGV.empty? && (puts "usage: #{Pathname.new($0).basename} <html files>"; exit 1)
 

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 Sequel.migration do
   change do
     create_table(:users) do

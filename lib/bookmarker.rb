@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
 
 $:.unshift(File.expand_path(File.dirname(__FILE__)))
 
-require 'pp'
 require 'sinatra/base'
 require 'multi_json'
 
@@ -22,15 +22,17 @@ class Bookmarker < Sinatra::Base
   end
 
   apost '/add', :provides => :json do
-
     if request.content_type && request.content_type.start_with?('application/json')
       details = MultiJson.decode(env['rack.input'].read, :symbolize_keys => true)
       if details[:uri] && details[:token]
         begin
           settings.on_bookmark(details)
           ahalt(201)
-        rescue Sequel::DatabaseError => e
-          ahalt 500
+        rescue RuntimeError => e
+          logger.error { e }
+        rescue => e
+          logger.fatal { e.message }
+          raise
         end
       else
         ahalt 401

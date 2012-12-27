@@ -1,5 +1,4 @@
-# coding: utf-8
-
+# -*- encoding: utf-8 -*-
 require 'nokogiri'
 require 'amatch'
 require 'iconv'
@@ -118,10 +117,10 @@ class HtmlCleaner
   ELEMENTS_TO_REMOVE = ['img', 'script', 'noscript', 'head', 'meta', 'option', 'link', 'br', 'style', '[@style=\'display: none\']']
   ELEMENTS_TO_KEEP = ['strong','font','h1','h2','h3','h4','h5','h6','b','i','a','cite','code','em','q','s','span','strike','sub','super','tt']
 
+  # This assumes the document is alreay in utf-8.
   def initialize(html)
-    # Force encoding.
-    h = Iconv.new('utf-8//ignore//translit', 'utf-8').conv(html)
 
+    # TODO translate html entitiy references.
     # Get rid of entity references and a few other characters.
     # WARNING. Be careful of the  when cutting & pasting.
     @document = Nokogiri(h.gsub(/(&#?[[:alnum:]]+;|[|])/, ''))
