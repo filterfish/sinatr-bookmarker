@@ -7,7 +7,7 @@ class HtmlEncoding
 
   def initialize
     @encodings = Set.new(Encoding.name_list)
-    @encoding_args = {:cr_newline => true, :invalid => :replace, :undef => :replace, :replace => ' '}
+    @encoding_args = {:invalid => :replace, :undef => :replace, :replace => ' '}
   end
 
   def encode(doc, content_type=nil)

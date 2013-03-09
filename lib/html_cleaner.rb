@@ -123,7 +123,7 @@ class HtmlCleaner
     # TODO translate html entitiy references.
     # Get rid of entity references and a few other characters.
     # WARNING. Be careful of the  when cutting & pasting.
-    @document = Nokogiri(h.gsub(/(&#?[[:alnum:]]+;|[|])/, ''))
+    @document = Nokogiri(html.gsub(/(&#?[[:alnum:]]+;|[|])/, ''))
   end
 
   def title

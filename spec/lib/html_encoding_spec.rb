@@ -22,5 +22,8 @@ describe HtmlEncoding do
   it 'should properly encoding a uft-8 string' do
     data = test_file('utf-8/nginx-default')
     @html_encoder.encode(data).should == data.encode('utf-8')
+
+    data = test_file('utf-8/10-best-jquery-datepickers-plugins')
+    @html_encoder.encode(data).should == data.encode('utf-8', {:invalid => :replace, :undef => :replace, :replace => '?'})
   end
 end
