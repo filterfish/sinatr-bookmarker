@@ -62,9 +62,7 @@ class BookmarkerPersisterAgent < Smith::Agent
 
   def download_document(uri, user, &blk)
     begin
-      logger.debug("Downloading: #{uri.display}")
-
-      http = EM::HttpRequest.new(uri).get(:connect_timeout => 120, :inactivity_timeout => 240, :redirects => 12, :head => {"accept-encoding" => "gzip, compressed"})
+      http = EM::HttpRequest.new(uri).get(:connect_timeout => 120, :inactivity_timeout => 240, :redirects => 12, :head => {"accept-encoding" => "deflate, compressed"})
       http.callback do
         logger.info("Document downloaded: [#{user.login}]: #{http.response_header.status}  #{http.last_effective_url.display_uri}")
 
